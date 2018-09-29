@@ -68,7 +68,9 @@ public class TakeOffGameHandler : MonoBehaviour
         _audioSource.clip = _countdownAudioClip;
         _audioSource.Play();
 
-        yield return new WaitForSeconds(11);
+        //yield return new WaitForSeconds(11);
+
+        yield return new WaitForSeconds(0);
 
         _messenger.Publish(new LiftoffMessage(this));
     }

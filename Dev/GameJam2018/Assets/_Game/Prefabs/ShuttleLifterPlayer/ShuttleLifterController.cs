@@ -10,7 +10,7 @@ public class ShuttleLifterController : MonoBehaviour
 
     private bool _isAlive = true;
 
-    private float _verticalSpeed = 1f;
+    private float _verticalSpeed = 1.5f;
 
     private AudioSource _audioSource;
 

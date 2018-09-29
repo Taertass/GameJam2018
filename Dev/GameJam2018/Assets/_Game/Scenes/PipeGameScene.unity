@@ -2527,6 +2527,16 @@ Prefab:
       propertyPath: _gridPosition.x
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114732200134955774, guid: 198cba7e4dd688847a3659ae0ed16654,
+        type: 2}
+      propertyPath: _pipeTileShape
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114732200134955774, guid: 198cba7e4dd688847a3659ae0ed16654,
+        type: 2}
+      propertyPath: _pipeTileRotation
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 198cba7e4dd688847a3659ae0ed16654, type: 2}
   m_IsPrefabAsset: 0

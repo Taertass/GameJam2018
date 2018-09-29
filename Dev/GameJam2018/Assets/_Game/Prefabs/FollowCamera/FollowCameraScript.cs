@@ -6,9 +6,9 @@ public class FollowCameraScript : MonoBehaviour
     [SerializeField]
     private Transform _target;
 
-    private float _targetOffset = 1.90f;
+    private float _targetOffset = 2.10f;
 
-    private float _offset = 3.30f;
+    private float _offset = 3.60f;
 
     private Transform _transform;
     private Core.Loggers.ILogger _logger;

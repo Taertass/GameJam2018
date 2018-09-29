@@ -16,25 +16,55 @@ public class ShuttleLifterController : MonoBehaviour
 
     private float _verticalSpeed = 100f;
 
+    private AudioSource _audioSource;
+
     private IMessenger _messenger;
+    private ISubscriptionToken _liftoffToken;
     private Core.Loggers.ILogger _logger;
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
+
+    private float _startTime;
+    private bool isStarted = false;
 
     private void Start()
     {
         Core.Loggers.ILoggerFactory loggerFactory = Game.Container.Resolve<Core.Loggers.ILoggerFactory>();
         _logger = loggerFactory.Create(this);
 
+        _audioSource = GetComponent<AudioSource>();
+
         _messenger = Game.Container.Resolve<IMessenger>();
+
+        _liftoffToken = _messenger.Subscribe((LiftoffMessage liftoffMessage) =>
+        {
+            _audioSource.Play();
+            isStarted = true;
+            _startTime = Time.time;
+        });
 
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _transform = GetComponent<Transform>();
 
+        _startTime = Time.time;
+
+    }
+
+    private void OnDestroy()
+    {
+        _liftoffToken.Dispose();
     }
 
     private void Update()
     {
+        if(!isStarted )
+        {
+            return;
+        }
+
+        if (Time.time - _startTime < 1.2)
+            return;
+
         _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 1);
 
         if (!_isAlive)

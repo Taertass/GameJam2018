@@ -51,12 +51,13 @@ public class TakeOffGameHandler : MonoBehaviour
 
         _playerEnteredGoalMessageToken = _messenger.Subscribe((PlayerEnteredGoalMessage playerEnteredGoalMessage) =>
         {
-            _logger.Log("Should change scene");
+            StartCoroutine(DelayedScreenSwitch());
         });
 
         _playerCrashedMessageToken = _messenger.Subscribe((PlayerCrashedMessage playerCrashedMessage) =>
         {
             ShowCrashMenu();
+            _audioSource.Stop();
         });
 
         StartCoroutine(CountdownToLiftof());
@@ -70,6 +71,13 @@ public class TakeOffGameHandler : MonoBehaviour
         yield return new WaitForSeconds(11);
 
         _messenger.Publish(new LiftoffMessage(this));
+    }
+
+    private IEnumerator DelayedScreenSwitch()
+    {
+        yield return new WaitForSeconds(3.5f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void OnContinueButtonPressed()

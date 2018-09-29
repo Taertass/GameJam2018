@@ -6,26 +6,24 @@ public class ShuttleLifterController : MonoBehaviour
     [SerializeField]
     private float _horizontalSpeed = 100f;
 
-    [SerializeField]
-    private float _verticalMaxSpeed = 1f;
-
-    [SerializeField]
-    private float _bounds = 5;
+    private float _bounds = 6.5f;
 
     private bool _isAlive = true;
 
-    private float _verticalSpeed = 100f;
+    private float _verticalSpeed = 1f;
 
     private AudioSource _audioSource;
 
     private IMessenger _messenger;
     private ISubscriptionToken _liftoffToken;
+    private ISubscriptionToken _playerEnteredGoalMessageToken;
     private Core.Loggers.ILogger _logger;
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
 
     private float _startTime;
     private bool isStarted = false;
+    private bool isFinished = false;
 
     private void Start()
     {
@@ -43,6 +41,12 @@ public class ShuttleLifterController : MonoBehaviour
             _startTime = Time.time;
         });
 
+        _playerEnteredGoalMessageToken = _messenger.Subscribe((PlayerEnteredGoalMessage playerEnteredGoalMessage) =>
+        {
+            isFinished = true;
+            _verticalSpeed = 3f;
+        });
+
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _transform = GetComponent<Transform>();
 
@@ -53,11 +57,12 @@ public class ShuttleLifterController : MonoBehaviour
     private void OnDestroy()
     {
         _liftoffToken.Dispose();
+        _playerEnteredGoalMessageToken.Dispose();
     }
 
     private void Update()
     {
-        if(!isStarted )
+        if (!isStarted)
         {
             return;
         }
@@ -65,12 +70,17 @@ public class ShuttleLifterController : MonoBehaviour
         if (Time.time - _startTime < 1.2)
             return;
 
-        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 1);
+        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _verticalSpeed);
 
         if (!_isAlive)
         {
             _rigidbody2D.velocity = new Vector2(0, 0);
 
+            return;
+        }
+
+        if (isFinished)
+        {
             return;
         }
 
@@ -105,6 +115,8 @@ public class ShuttleLifterController : MonoBehaviour
         {
             _messenger.Publish(new PlayerCrashedMessage(this));
             _isAlive = false;
+
+            _audioSource.Stop();
         }   
     }
 }

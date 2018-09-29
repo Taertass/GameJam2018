@@ -6,18 +6,20 @@ public class FollowCameraScript : MonoBehaviour
     [SerializeField]
     private Transform _target;
 
-    private float _targetOffset = 2.00f;
+    private float _targetOffset = 1.90f;
 
-    private float _offset = 3.40f;
+    private float _offset = 3.30f;
 
     private Transform _transform;
     private Core.Loggers.ILogger _logger;
 
     private float _startTime;
     private bool isStarted = false;
+    private bool isFinished = false;
 
-    private Core.Mediators.IMessenger _messenger;
-    private Core.Mediators.ISubscriptionToken _liftofToken;
+    private IMessenger _messenger;
+    private ISubscriptionToken _liftofToken;
+    private ISubscriptionToken _playerEnteredGoalMessageToken;
 
     private void Start()
     {
@@ -38,6 +40,11 @@ public class FollowCameraScript : MonoBehaviour
             _startTime = Time.time;
         });
 
+        _playerEnteredGoalMessageToken = _messenger.Subscribe((PlayerEnteredGoalMessage playerEnteredGoalMessage) =>
+        {
+            isFinished = true;
+        });
+
         _startTime = Time.time;
         _transform.position = new Vector3(transform.position.x, _target.position.y + _offset, transform.position.z);
     }
@@ -45,12 +52,13 @@ public class FollowCameraScript : MonoBehaviour
     private void OnDestroy()
     {
         _liftofToken.Dispose();
+        _playerEnteredGoalMessageToken.Dispose();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (!isStarted)
+        if (!isStarted || isFinished)
         {
             return;
         }

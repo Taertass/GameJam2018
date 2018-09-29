@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 [ExecuteInEditMode]
 public class PipeGame : MonoBehaviour
@@ -299,9 +299,9 @@ public class PipeGame : MonoBehaviour
         }
 
         if (isConnected)
-            _logger?.Log("FULLY CONNECTED!!!");
-        else
-            _logger?.Log("NOT FULLY CONNECTED");
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     private PipeTileScript GetPipeTileToTheDirection(PipeTileScript pipeTile, Direction direction)

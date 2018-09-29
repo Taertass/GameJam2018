@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/_Game/Scenes/StartScene.unity
     guid: 2f544d0615bf6104fb3ee19dfa50c3ac
   - enabled: 1
+    path: Assets/_Game/Scenes/AnimatedSceen1.unity
+    guid: cade2055708de7848b6a51ea3e9f8e13
+  - enabled: 1
     path: Assets/_Game/Scenes/TakeOffScene.unity
     guid: 4a20d3eb2f0fdcc4c879644555b8fdb5
   m_configObjects: {}

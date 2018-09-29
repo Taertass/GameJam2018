@@ -6,6 +6,9 @@ public class ShuttleLifterController : MonoBehaviour
     [SerializeField]
     private float _horizontalSpeed = 100f;
 
+    [SerializeField]
+    private GameObject _fire;
+
     private float _bounds = 6.5f;
 
     private bool _isAlive = true;
@@ -69,6 +72,9 @@ public class ShuttleLifterController : MonoBehaviour
 
         if (Time.time - _startTime < 1.2)
             return;
+
+        if (!_fire.activeSelf)
+            _fire.SetActive(true);
 
         _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _verticalSpeed);
 

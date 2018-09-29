@@ -8,7 +8,7 @@ public class FollowCameraScript : MonoBehaviour
 
     private float _targetOffset = 2.10f;
 
-    private float _offset = 3.60f;
+    private float _offset = 2.10f; //3.60f;
 
     private Transform _transform;
     private Core.Loggers.ILogger _logger;
@@ -46,7 +46,9 @@ public class FollowCameraScript : MonoBehaviour
         });
 
         _startTime = Time.time;
-        _transform.position = new Vector3(transform.position.x, _target.position.y + _offset, transform.position.z);
+        //_transform.position = new Vector3(transform.position.x, _target.position.y + _offset, transform.position.z);
+
+        _offset = _transform.position.y - _target.position.y;
     }
 
     private void OnDestroy()
@@ -66,12 +68,15 @@ public class FollowCameraScript : MonoBehaviour
         if (Time.time - _startTime < 1.2)
             return;
 
+        Vector2 cameraPosition = _transform.position;
+
         if (_offset > _targetOffset)
             _offset -= 0.9f * Time.deltaTime;
 
         if (_target != null)
         {
             _transform.position = new Vector3(transform.position.x, _target.position.y + _offset, transform.position.z);
+            //_transform.position = new Vector3(transform.position.x, cameraPosition.y, transform.position.z);
         }
     }
 }

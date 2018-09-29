@@ -59,6 +59,8 @@ public class PipeTileScript : MonoBehaviour
         _text = GetComponentInChildren<Text>();
 
         _messenger = Game.Container?.Resolve<Core.Mediators.IMessenger>();
+
+        UpdateLayout();
     }
 
     public void SetIsConnected(bool isConnected)
@@ -91,9 +93,11 @@ public class PipeTileScript : MonoBehaviour
         if(_image == null)
             _image = GetComponent<Image>();
 
+        _image.color = new Color(1, 1, 1, 1);
         if (_pipeTileShape == PipeTileShape.None)
         {
             _image.sprite = null;
+            _image.color = new Color(1, 1, 1, 0);
         }
         else if (_pipeTileShape == PipeTileShape.Corner)
         {

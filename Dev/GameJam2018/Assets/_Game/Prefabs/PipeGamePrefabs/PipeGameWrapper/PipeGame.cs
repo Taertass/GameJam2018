@@ -14,6 +14,7 @@ public class PipeGame : MonoBehaviour
     private PipeTileScript _endTile;
 
     private Core.Mediators.IMessenger _messenger;
+    private Core.Mediators.ISubscriptionToken _pipeTileRotatedMessageToken;
 
     // Use this for initialization
     private void Start()
@@ -43,11 +44,16 @@ public class PipeGame : MonoBehaviour
         }
 
         _logger?.Log(sb.ToString());
-        _messenger.Subscribe((PipeTileRotatedMessage pipeTileRotatedMessage) =>
+        _pipeTileRotatedMessageToken = _messenger?.Subscribe((PipeTileRotatedMessage pipeTileRotatedMessage) =>
         {
             _logger?.Log("Rotated " + pipeTileRotatedMessage.PipeTile.ToString());
             CheckForGameCompletion();
         });
+    }
+
+    private void OnDestroy()
+    {
+        _pipeTileRotatedMessageToken.Dispose();
     }
 
     // Update is called once per frame

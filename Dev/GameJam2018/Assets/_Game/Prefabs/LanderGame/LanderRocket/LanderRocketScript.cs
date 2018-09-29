@@ -7,8 +7,13 @@ public class LanderRocketScript : MonoBehaviour
 
     private float _rotationSpeedFactor = 100f;
 
+    [SerializeField]
+    private GameObject _fire;
+
     private Rigidbody2D _rigidbody;
     private Transform _transform;
+
+    private AudioSource _audioSource;
 
     private Core.Loggers.ILogger _logger;
 
@@ -18,6 +23,8 @@ public class LanderRocketScript : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _transform = GetComponent<Transform>();
+
+        _audioSource = GetComponent<AudioSource>();
 
         _logger = Game.Container?.Resolve<Core.Loggers.ILoggerFactory>()?.Create(this);
     }
@@ -29,12 +36,35 @@ public class LanderRocketScript : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
+            if (!_audioSource.isPlaying)
+            {
+                _audioSource.Play();
+            }
+
+            if(!_fire.activeSelf)
+            {
+                _fire.SetActive(true);
+            }
+
             Vector2 forceToAdd = new Vector2(0, _speedFactor * Time.deltaTime);
             forceToAdd = Rotate(forceToAdd, _rigidbody.rotation);
 
             _rigidbody.AddForce(forceToAdd);
 
             
+        }
+        else
+        {
+            if (_audioSource.isPlaying)
+            {
+                _audioSource.Stop();
+                _audioSource.time = 0;
+            }
+
+            if (_fire.activeSelf)
+            {
+                _fire.SetActive(false);
+            }
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))

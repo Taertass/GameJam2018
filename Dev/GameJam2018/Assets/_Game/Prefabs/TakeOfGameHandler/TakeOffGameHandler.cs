@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerCrashedMessage : Core.Mediators.Message
 {
@@ -30,6 +31,9 @@ public class TakeOffGameHandler : MonoBehaviour
     [SerializeField]
     private AudioClip _countdownAudioClip;
 
+    [SerializeField]
+    private Text _countdownText;
+
     private IMessenger _messenger;
     private Core.Loggers.ILogger _logger;
 
@@ -39,6 +43,8 @@ public class TakeOffGameHandler : MonoBehaviour
     private bool _isPaused;
 
     private AudioSource _audioSource;
+
+    private int _count = 10;
 
     private void Start()
     {
@@ -61,6 +67,23 @@ public class TakeOffGameHandler : MonoBehaviour
         });
 
         StartCoroutine(CountdownToLiftof());
+        StartCoroutine(Countdown());
+    }
+
+    private IEnumerator Countdown()
+    {
+        for(int i = 10; i > -1; i--)
+        {
+            _countdownText.text = i.ToString();
+            
+            yield return new WaitForSeconds(1.08f);
+        }
+
+        _countdownText.text = "Liftoff";
+
+        yield return new WaitForSeconds(3);
+
+        _countdownText.text = "";
     }
 
     private IEnumerator CountdownToLiftof()
@@ -68,9 +91,9 @@ public class TakeOffGameHandler : MonoBehaviour
         _audioSource.clip = _countdownAudioClip;
         _audioSource.Play();
 
-        //yield return new WaitForSeconds(11);
+        yield return new WaitForSeconds(11);
 
-        yield return new WaitForSeconds(0);
+        //yield return new WaitForSeconds(0);
 
         _messenger.Publish(new LiftoffMessage(this));
     }

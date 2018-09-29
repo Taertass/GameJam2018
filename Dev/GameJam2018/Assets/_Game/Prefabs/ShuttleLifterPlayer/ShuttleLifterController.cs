@@ -97,13 +97,13 @@ public class ShuttleLifterController : MonoBehaviour
         if (currentPosition.x > _bounds )
         {
             _logger.Log("Stuck right side");
-            _rigidbody2D.velocity = Vector2.zero;
+            _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
             transform.position = new Vector2(_bounds, currentPosition.y);
         }
         else if(currentPosition.x < (-1 * _bounds))
         {
             _logger.Log("Stuck left side");
-            _rigidbody2D.velocity = Vector2.zero;
+            _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
             transform.position = new Vector2((-1 * _bounds), currentPosition.y);
         }
             

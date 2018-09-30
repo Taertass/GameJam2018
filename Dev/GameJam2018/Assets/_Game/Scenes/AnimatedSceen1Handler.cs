@@ -14,9 +14,8 @@ public class AnimatedSceen1Handler : MonoBehaviour
 
     private IEnumerator ToNextSceenAfterDelay()
     {
-
         yield return new WaitForSeconds(14);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 }

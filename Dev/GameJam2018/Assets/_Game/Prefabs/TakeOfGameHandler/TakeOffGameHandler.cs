@@ -26,6 +26,9 @@ public class TakeOffGameHandler : MonoBehaviour
     private GameObject _menu;
 
     [SerializeField]
+    private GameObject _rigging;
+
+    [SerializeField]
     private GameObject _crashMenu;
 
     [SerializeField]
@@ -46,8 +49,12 @@ public class TakeOffGameHandler : MonoBehaviour
 
     private int _count = 10;
 
+    private float _startTime;
+
     private void Start()
     {
+        _startTime = Time.time;
+
         _audioSource = GetComponent<AudioSource>();
 
         Core.Loggers.ILoggerFactory loggerFactory = Game.Container.Resolve<Core.Loggers.ILoggerFactory>();
@@ -102,7 +109,7 @@ public class TakeOffGameHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void OnContinueButtonPressed()
@@ -113,13 +120,13 @@ public class TakeOffGameHandler : MonoBehaviour
     public void OnQuitButtonPressed()
     {
         HideInGameMenu();
-        SceneManager.LoadScene(0);
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void OnRetryButtonPressed()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnDestroy()
@@ -182,6 +189,15 @@ public class TakeOffGameHandler : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             ToggelInGameMenu();
+        }
+
+        if (Time.time - _startTime > 6)
+        {
+            float newX = _rigging.transform.localPosition.x - 0.8f * Time.deltaTime;
+            if(newX > -2.9)
+            {
+                _rigging.transform.localPosition = new Vector3(newX, _rigging.transform.localPosition.y);
+            }   
         }
     }
 }

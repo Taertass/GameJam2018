@@ -49,6 +49,8 @@ public class PipeGame : MonoBehaviour
             _logger?.Log("Rotated " + pipeTileRotatedMessage.PipeTile.ToString());
             CheckForGameCompletion();
         });
+
+        CheckForGameCompletion();
     }
 
     private void OnDestroy()
@@ -306,7 +308,7 @@ public class PipeGame : MonoBehaviour
 
         if (isConnected)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 

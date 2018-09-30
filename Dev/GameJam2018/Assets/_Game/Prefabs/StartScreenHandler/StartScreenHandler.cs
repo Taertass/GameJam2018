@@ -5,7 +5,7 @@ public class StartScreenHandler : MonoBehaviour
 {
     public void OnStartButtonClicked()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadSceneAsync(1);
     }
 
     public void OnQuitClicked()

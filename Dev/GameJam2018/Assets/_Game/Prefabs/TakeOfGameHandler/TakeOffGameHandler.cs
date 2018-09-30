@@ -109,7 +109,7 @@ public class TakeOffGameHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void OnContinueButtonPressed()
@@ -120,13 +120,13 @@ public class TakeOffGameHandler : MonoBehaviour
     public void OnQuitButtonPressed()
     {
         HideInGameMenu();
-        SceneManager.LoadScene(0);
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void OnRetryButtonPressed()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnDestroy()

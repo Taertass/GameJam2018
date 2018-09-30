@@ -20,6 +20,7 @@ public class ShuttleLifterController : MonoBehaviour
     private IMessenger _messenger;
     private ISubscriptionToken _liftoffToken;
     private ISubscriptionToken _playerEnteredGoalMessageToken;
+    private ISubscriptionToken _playerCrashedMessageToken;
     private Core.Loggers.ILogger _logger;
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
@@ -50,6 +51,17 @@ public class ShuttleLifterController : MonoBehaviour
             _verticalSpeed = 3f;
         });
 
+        _playerCrashedMessageToken = _messenger.Subscribe((PlayerCrashedMessage playerCrashedMessage) =>
+        {
+            if(playerCrashedMessage.Sender != this)
+            {
+                _isAlive = false;
+                _audioSource.Stop();
+            }
+        });
+
+        
+
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _transform = GetComponent<Transform>();
 
@@ -61,6 +73,7 @@ public class ShuttleLifterController : MonoBehaviour
     {
         _liftoffToken.Dispose();
         _playerEnteredGoalMessageToken.Dispose();
+        _playerCrashedMessageToken.Dispose();
     }
 
     private void Update()
@@ -90,11 +103,11 @@ public class ShuttleLifterController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             _rigidbody2D.AddForce(new Vector2(-1 * _horizontalSpeed * Time.deltaTime, 0));
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             _rigidbody2D.AddForce(new Vector2(_horizontalSpeed * Time.deltaTime, 0));
         }
@@ -117,12 +130,12 @@ public class ShuttleLifterController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy")
-        {
-            _messenger.Publish(new PlayerCrashedMessage(this));
-            _isAlive = false;
+        //if(collision.tag == "Enemy")
+        //{
+        //    _messenger.Publish(new PlayerCrashedMessage(this));
+        //    _isAlive = false;
 
-            _audioSource.Stop();
-        }   
+        //    _audioSource.Stop();
+        //}   
     }
 }

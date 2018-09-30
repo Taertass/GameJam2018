@@ -37,6 +37,12 @@ public class TakeOffGameHandler : MonoBehaviour
     [SerializeField]
     private Text _countdownText;
 
+    [SerializeField]
+    private Text _infoText;
+
+    [SerializeField]
+    private GameObject _countdownOverlay;
+
     private IMessenger _messenger;
     private Core.Loggers.ILogger _logger;
 
@@ -82,6 +88,11 @@ public class TakeOffGameHandler : MonoBehaviour
         for(int i = 10; i > -1; i--)
         {
             _countdownText.text = i.ToString();
+
+            if(i == 3 && _infoText != null)
+            {
+                _infoText.text = "";
+            }
             
             yield return new WaitForSeconds(1.08f);
         }
@@ -89,6 +100,9 @@ public class TakeOffGameHandler : MonoBehaviour
         _countdownText.text = "Liftoff";
 
         yield return new WaitForSeconds(3);
+
+        if (_countdownOverlay != null)
+            _countdownOverlay.SetActive(false);
 
         _countdownText.text = "";
     }
@@ -99,8 +113,6 @@ public class TakeOffGameHandler : MonoBehaviour
         _audioSource.Play();
 
         yield return new WaitForSeconds(11);
-
-        //yield return new WaitForSeconds(0);
 
         _messenger.Publish(new LiftoffMessage(this));
     }

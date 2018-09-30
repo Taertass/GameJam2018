@@ -16,7 +16,10 @@ public class LanderRocketScript : MonoBehaviour
     private AudioSource _audioSource;
 
     private Core.Loggers.ILogger _logger;
+    private Core.Mediators.IMessenger _messenger;
+    private Core.Mediators.ISubscriptionToken _landerLandedSuccessfullyMessageToken;
 
+    private bool _isLanded = false;
 
     // Use this for initialization
     private void Start()
@@ -27,31 +30,67 @@ public class LanderRocketScript : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _logger = Game.Container?.Resolve<Core.Loggers.ILoggerFactory>()?.Create(this);
+        _messenger = Game.Container?.Resolve<Core.Mediators.IMessenger>();
+
+        _landerLandedSuccessfullyMessageToken = _messenger.Subscribe((LanderLandedSuccessfullyMessage landerLandedSuccessfullyMessage) =>
+        {
+            _isLanded = true;
+        });
     }
 
     // Update is called once per frame
     private void Update()
     {
-        _logger?.Log(transform.forward);
-
-        if (Input.GetKey(KeyCode.Space))
+        if(!_isLanded)
         {
-            if (!_audioSource.isPlaying)
+            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
-                _audioSource.Play();
+                if (!_audioSource.isPlaying)
+                {
+                    _audioSource.Play();
+                }
+
+                if (!_fire.activeSelf)
+                {
+                    _fire.SetActive(true);
+                }
+
+                Vector2 forceToAdd = new Vector2(0, _speedFactor * Time.deltaTime);
+                forceToAdd = Rotate(forceToAdd, _rigidbody.rotation);
+
+                _rigidbody.AddForce(forceToAdd);
+
+
+            }
+            else
+            {
+                if (_audioSource.isPlaying)
+                {
+                    _audioSource.Stop();
+                    _audioSource.time = 0;
+                }
+
+                if (_fire.activeSelf)
+                {
+                    _fire.SetActive(false);
+                }
             }
 
-            if(!_fire.activeSelf)
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {
-                _fire.SetActive(true);
+                _rigidbody.MoveRotation(_rigidbody.rotation + (_rotationSpeedFactor * Time.deltaTime));
             }
 
-            Vector2 forceToAdd = new Vector2(0, _speedFactor * Time.deltaTime);
-            forceToAdd = Rotate(forceToAdd, _rigidbody.rotation);
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
+                _rigidbody.MoveRotation(_rigidbody.rotation - (_rotationSpeedFactor * Time.deltaTime));
+            }
 
-            _rigidbody.AddForce(forceToAdd);
-
-            
+            //Limit Speed
+            if (_rigidbody.velocity.magnitude > _maxSpeed)
+            {
+                _rigidbody.velocity = _rigidbody.velocity.normalized * _maxSpeed;
+            }
         }
         else
         {
@@ -66,22 +105,7 @@ public class LanderRocketScript : MonoBehaviour
                 _fire.SetActive(false);
             }
         }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            _rigidbody.MoveRotation(_rigidbody.rotation + (_rotationSpeedFactor * Time.deltaTime));
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            _rigidbody.MoveRotation(_rigidbody.rotation - (_rotationSpeedFactor * Time.deltaTime));
-        }
-
-        //Limit Speed
-        if (_rigidbody.velocity.magnitude > _maxSpeed)
-        {
-            _rigidbody.velocity = _rigidbody.velocity.normalized * _maxSpeed;
-        }
+        
     }
 
     public static Vector2 Rotate(Vector2 v, float degrees)

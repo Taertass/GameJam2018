@@ -26,6 +26,9 @@ public class TakeOffGameHandler : MonoBehaviour
     private GameObject _menu;
 
     [SerializeField]
+    private GameObject _rigging;
+
+    [SerializeField]
     private GameObject _crashMenu;
 
     [SerializeField]
@@ -46,8 +49,12 @@ public class TakeOffGameHandler : MonoBehaviour
 
     private int _count = 10;
 
+    private float _startTime;
+
     private void Start()
     {
+        _startTime = Time.time;
+
         _audioSource = GetComponent<AudioSource>();
 
         Core.Loggers.ILoggerFactory loggerFactory = Game.Container.Resolve<Core.Loggers.ILoggerFactory>();
@@ -182,6 +189,15 @@ public class TakeOffGameHandler : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             ToggelInGameMenu();
+        }
+
+        if (Time.time - _startTime > 6)
+        {
+            float newX = _rigging.transform.localPosition.x - 0.8f * Time.deltaTime;
+            if(newX > -2.9)
+            {
+                _rigging.transform.localPosition = new Vector3(newX, _rigging.transform.localPosition.y);
+            }   
         }
     }
 }

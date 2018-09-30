@@ -103,7 +103,15 @@ public class LanderGameHandler : MonoBehaviour
         {
             _messenger?.Publish(new LanderLandedSuccessfullyMessage(this));
             _hasLanded = true;
+
+            StartCoroutine(ToNextSceenAfterDelay());
         }
+    }
+
+    private IEnumerator ToNextSceenAfterDelay()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     private void SetPauseGame(bool isPaused)

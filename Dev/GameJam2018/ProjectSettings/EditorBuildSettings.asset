@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Game/Scenes/LanderScene.unity
     guid: 93774e8a2182c8e44bb9cc380e379071
+  - enabled: 1
+    path: Assets/_Game/Scenes/AnimationScene4.unity
+    guid: 8bf730033ee74b448b120dd31ec35f9d
   m_configObjects: {}

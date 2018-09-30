@@ -2013,7 +2013,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Reach space
 
-    Use Arrows or A and D to controll'
+    Use Arrows or A and D to control'
 --- !u!222 &928147653
 CanvasRenderer:
   m_ObjectHideFlags: 0

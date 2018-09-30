@@ -365,7 +365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &457030272
 RectTransform:
   m_ObjectHideFlags: 0
@@ -377,11 +377,11 @@ RectTransform:
   m_LocalScale: {x: 3.7251, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 973826864}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 615, y: -354.97}
+  m_AnchoredPosition: {x: 676, y: -354.97}
   m_SizeDelta: {x: 205.7, y: 510.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &457030273
@@ -446,12 +446,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 973826864}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 39, y: 0}
-  m_SizeDelta: {x: 1354.98, y: 1024}
+  m_SizeDelta: {x: 884.6, y: 745.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &459366041
 MonoBehaviour:
@@ -474,7 +474,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 1506f88c81531e84082fe950278ea49a, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1823,8 +1823,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 459366040}
   - {fileID: 457030272}
+  - {fileID: 459366040}
   - {fileID: 1555567911}
   - {fileID: 471443926}
   - {fileID: 395397778}
@@ -2398,7 +2398,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -2792,7 +2792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 0.5803922}
+  m_Color: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
